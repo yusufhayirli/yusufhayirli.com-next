@@ -11,23 +11,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Build project
-        run: npm run build
+        run: |
+          npm install
+          npm run build
 
-      - name: Deploy to GoDaddy via SSH
+      - name: Deploy via SSH
         uses: easingthemes/ssh-deploy@v2.2.11
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          remote-user: ${{ secrets.SSH_USERNAME }}
-          server-ip: ${{ secrets.SSH_HOST }}
-          remote-path: /home/u15dgux9enzm/public_html/yusufhayirli.com/
-          local-path: ./out
-          port: 22
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: 22
+          SOURCE: "./out/"
+          TARGET: "/home/your-username/public_html/yusufhayirli.com"
