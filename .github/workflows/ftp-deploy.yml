@@ -1,9 +1,7 @@
 name: Deploy to GoDaddy via FTP
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   ftp-deploy:
@@ -29,3 +27,10 @@ jobs:
           port: 21
           local-dir: ./out/
           server-dir: /public_html/
+          dry-run: false
+          passive: true
+          log-level: verbose
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            **/.next/**
