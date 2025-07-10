@@ -53,3 +53,16 @@ export type SocialUrls = {
   spotify: string;
   [key: string]: string; // Ek linkler için
 };
+
+export type SkillsAndCertsProps = {
+  skillsAndCerts: {
+    salesforceExpertise: Cert[];
+    frontEnd: string[];
+    backEnd: string[];
+    databases: string[];
+    devOpsTools: string[];
+    cloudInfrastructure: string[];
+    softwarePractices: string[];
+    languages: string[];
+  };
+};

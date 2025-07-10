@@ -1,5 +1,6 @@
 // store/slices/infoSlice.ts
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { SocialUrls } from '@/types';
 
 export interface Education {
   institution: string;
@@ -58,7 +59,7 @@ export interface InfoState {
     currentCompanyUrl: string;
     title: string;
     jobTitle: string;
-    socialUrls: Record<string, string>;
+    socialUrls: SocialUrls;
     education: Education;
   };
   experiences: Experience[];

@@ -2,11 +2,14 @@ import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
 
 const nextConfig: NextConfig = {
+  output: 'export', // ← enables static export for GoDaddy
+  trailingSlash: true, // ← recommended for static hosting routing
+
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'example.com', // ← burayı kendi domainine göre değiştir
+        hostname: 'example.com', // ← replace with your actual domain
       },
     ],
   },
