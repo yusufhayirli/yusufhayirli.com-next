@@ -24,4 +24,4 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USER }}
           REMOTE_PORT: 22
           SOURCE: "./out/"
-          TARGET: "/home/your-username/public_html/yusufhayirli.com"
+          TARGET: "/home/u15dgux9enzm/public_html/"
