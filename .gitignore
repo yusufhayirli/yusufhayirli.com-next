@@ -18,8 +18,12 @@ package-lock.json
 /.next/
 /out/
 
+# Test coverage
+coverage/
+
 # production
 /build
+dist/
 
 # misc
 .DS_Store
@@ -40,3 +44,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#VSCode settings
+.vscode/
