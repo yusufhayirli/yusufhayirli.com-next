@@ -18,6 +18,8 @@ jobs:
 
       - run: npm run build
 
+      - run: echo "Connecting to ${{ secrets.FTP_HOST }} as ${{ secrets.FTP_USERNAME }}"
+
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
