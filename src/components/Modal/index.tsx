@@ -50,14 +50,14 @@ const Modal = ({ title, subtitle, content, tags, onClose }: ModalProps) => {
 
         {/* Tags */}
         {Array.isArray(tags) && tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-2 justify-center">
             {tags.map((tag, i) => (
               <span
                 key={i}
                 className="relative px-3 py-1 rounded-md text-sm font-semibold text-[var(--body-color)] shadow-[var(--tag-shadow)] bg-gradient-to-b from-[var(--tag-bg-start)] to-[var(--tag-bg-end)] transition-all hover:scale-105 hover:bg-[var(--link-color)] hover:text-white 
   before:content-[''] before:absolute before:inset-0 before:rounded-md before:p-[1px] before:bg-[linear-gradient(135deg,var(--highlight-glow-1),var(--highlight-glow-2),var(--highlight-glow-3))] before:[mask-composite:exclude] before:pointer-events-none before:z-[1] before:opacity-0 hover:before:opacity-100"
               >
-                {tag}
+                <span className="relative z-[2]">{tag}</span>
               </span>
             ))}
           </div>

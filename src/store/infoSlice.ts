@@ -223,7 +223,7 @@ const initialState: InfoState = {
           image: "/assets/images/salesforce-associate-badge.png",
           alt: "Salesforce Certified Associate Badge",
           issued: "Issued 2023 • Credential ID: (Eklenirse)",
-          pdfLink: "Cert3368530_Associate_20230504.pdf"
+          pdfLink: "/assets/documents/Cert3368530_Associate_20230504.pdf"
         }
       ],
       frontEnd: [

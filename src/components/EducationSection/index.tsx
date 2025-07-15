@@ -26,7 +26,7 @@ const EducationSection: React.FC<EducationSectionProps> = ({ educationInfo }) =>
 
   return (
     <section className="mt-6 px-4 text-center">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 relative inline-block after:block after:mt-2 after:mx-auto after:w-1/2 after:border-b-2 after:border-blue-500 after:opacity-40">
+      <h2 className="text-2xl font-bold dark:text-gray-100 mb-6 relative inline-block after:block after:mt-2 after:mx-auto after:w-1/2 after:border-b-2 after:border-blue-500 after:opacity-40">
         Education
       </h2>
 

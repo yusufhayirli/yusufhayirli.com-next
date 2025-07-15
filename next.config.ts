@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
         hostname: 'example.com', // ← replace with your actual domain
       },
     ],
+    unoptimized: true
   },
 
   webpack(config: Configuration) {

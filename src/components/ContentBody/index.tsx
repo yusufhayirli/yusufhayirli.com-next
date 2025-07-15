@@ -19,8 +19,8 @@ const ContentBody: React.FC<ContentBodyProps> = ({ info }) => {
     <div className="w-full bg-[var(--body-background)] text-[var(--body-color)] py-8">
       <div className="container mx-auto px-4">
         {/* Experiences Section */}
-        <div className="mb-10">
-          <h2 className="text-2xl font-bold text-center mb-6 section-title">Experiences</h2>
+        <div className="mb-10 text-center">
+          <h2 className="text-2xl font-bold dark:text-gray-100 mb-6 relative inline-block after:block after:mt-2 after:mx-auto after:w-1/2 after:border-b-2 after:border-blue-500 after:opacity-40">Experiences</h2>
           <div className="flex flex-col gap-6">
             <ExperiencesField experiences={info.experiences} />
           </div>

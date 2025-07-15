@@ -37,7 +37,7 @@ const SkillsAndCerts: React.FC<SkillsAndCertsProps> = ({ skillsAndCerts }) => {
 
   return (
     <section className="mt-12 px-4 text-center">
-      <h2 className="text-2xl font-bold text-[var(--body-color)] mb-10">
+      <h2 className="text-2xl font-bold dark:text-gray-100 mb-6 relative inline-block after:block after:mt-2 after:mx-auto after:w-1/2 after:border-b-2 after:border-blue-500 after:opacity-40">
         Certifications, Skills & Languages
       </h2>
 
