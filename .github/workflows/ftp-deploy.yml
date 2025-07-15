@@ -1,4 +1,4 @@
-name: Deploy to GoDaddy via FTP
+name: Deploy via FTP
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Build project
@@ -17,13 +17,12 @@ jobs:
           npm install
           npm run build
 
-      - name: Deploy to GoDaddy via FTP
+      - name: Deploy to FTP Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
           port: 21
           local-dir: ./out/
           server-dir: /public_html/

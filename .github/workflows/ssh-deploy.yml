@@ -1,4 +1,4 @@
-name: Deploy to GoDaddy via SSH
+name: Deploy via SSH
 
 on:
   workflow_dispatch:
