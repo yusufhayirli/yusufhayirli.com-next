@@ -1,9 +1,8 @@
-// prisma/seed.ts
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // Clean all data for idempotent seed (optional)
+  // Clean all data for idempotent seed
   await prisma.profile.deleteMany();
 
   await prisma.profile.create({

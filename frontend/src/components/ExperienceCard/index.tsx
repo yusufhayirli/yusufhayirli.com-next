@@ -24,12 +24,12 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
         {/* Gradient border on hover */}
         <div className="absolute inset-0 rounded-2xl z-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-gradient-to-br from-[var(--highlight-glow-1)] via-[var(--highlight-glow-2)] to-[var(--highlight-glow-3)] blur-sm" />
 
-        {/* Ikon - FA Style */}
+        {/* Icon */}
         <div className="text-xl mb-2 text-center">
           <i className="fa fa-layer-group text-[var(--link-color)] text-2xl opacity-80" aria-hidden="true"></i>
         </div>
 
-        {/* Başlık */}
+        {/* Title */}
         <h2 className="text-lg font-bold text-center mb-1 text-[var(--body-color)]">
           {exp.jobTitle}{' '}
           <a
@@ -42,14 +42,14 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
           </a>
         </h2>
 
-        {/* Tarih Aralığı */}
+        {/* Date Interval */}
         {(exp.startDate && exp.leaveDate) && (
           <p className="text-sm text-center text-[var(--body-color)] opacity-70 mb-3">
             {exp.startDate} – {exp.leaveDate}
           </p>
         )}
 
-        {/* Özet (Kısa) */}
+        {/* Summary */}
         <ul className="text-sm text-left opacity-90 max-h-20 overflow-hidden mb-3 pl-6 list-disc">
           {exp.summary?.slice(0, 2).map((item, idx) => (
             <li key={idx}>{item}</li>
@@ -66,7 +66,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
           </button>
         </div>
 
-        {/* Yetenekler */}
+        {/* Skills */}
         <div className="flex flex-wrap justify-center gap-2">
           {exp.skills?.map((skill, i) => (
             <span

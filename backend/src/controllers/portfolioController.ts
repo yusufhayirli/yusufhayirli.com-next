@@ -4,6 +4,7 @@ import { PortfolioService } from '../services/portfolioService';
 const portfolioService = new PortfolioService();
 
 export class PortfolioController {
+  // If an operation is not needed but to complete CRUD, call this
   async noOp(req: Request, res: Response) {
     res.json({ success: true, message: "No operation performed." });
   }
@@ -22,7 +23,7 @@ export class PortfolioController {
     }
   }
 
-  // **PUT /api/portfolio** (update or create)
+  // PUT /api/portfolio
   async upsertPortfolio(req: Request, res: Response) {
     try {
       const updated = await portfolioService.upsertPortfolioData(req.body);
@@ -32,6 +33,7 @@ export class PortfolioController {
     }
   }
 
+  // PATCH /api/portfolio
   async patchPortfolio(req: Request, res: Response) {
   try {
     const result = await portfolioService.patchPortfolioData(req.body);
@@ -41,7 +43,7 @@ export class PortfolioController {
   }
 }
 
-  // **DELETE /api/portfolio**
+  // DELETE /api/portfolio
   async deletePortfolio(req: Request, res: Response) {
     try {
       await portfolioService.deletePortfolio();

@@ -1,5 +1,3 @@
-// shared/types.ts
-
 export type SocialUrls = {
   mail: string;
   linkedin: string;
@@ -48,7 +46,7 @@ export interface SkillsAndCerts {
   languages: string[];
 }
 
-// Backend'deki ProfileContent'e denk geliyor
+// Fit for Backend's ProfileContent
 export interface ProfileContent {
   context: string;
   type: string;
@@ -78,7 +76,7 @@ export interface InfoState {
   skillsAndCerts: SkillsAndCerts;
 }
 
-// API Response tipini hem frontend, hem backend'de kullanabilirsin
+// Both frontend & backend adapted
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -93,7 +91,7 @@ export interface PortfolioData {
   skillsAndCerts: SkillsAndCerts;
 }
 
-// Eski tipler aşağıda dursun istersen (gerekirse refactor ile kaldırabilirsin):
+// Old types can settle here, remove after if not needed.
 export interface ExperienceType extends Experience {}
 export interface CertificateType extends Certification {}
 export interface SkillAndCertsType extends SkillsAndCerts {}

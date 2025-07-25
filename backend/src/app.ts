@@ -45,7 +45,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Your main portfolio API routes
+// Main portfolio API routes
 app.use('/api/portfolio', portfolioRoutes);
 
 // Handle 404s for unknown routes
@@ -55,8 +55,3 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 export default app;
-
-// Optionally, add the server start in a separate file like server.js:
-// import app from './app';
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

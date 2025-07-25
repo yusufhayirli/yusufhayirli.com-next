@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
 
 const nextConfig: NextConfig = {
-  output: 'export', // ← enables static export for GoDaddy
+  output: 'export', // ← enables static export for Hosting
   trailingSlash: true, // ← recommended for static hosting routing
 
   images: {

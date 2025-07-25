@@ -1,5 +1,3 @@
-// store/slices/infoSlice.ts
-
 import { createSlice } from '@reduxjs/toolkit';
 import type { InfoState, ProfileContent, SkillsAndCerts } from '@shared/types';
 
