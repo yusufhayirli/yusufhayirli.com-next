@@ -1,0 +1,47 @@
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "description": "Backend API for portfolio website",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "npm run db:seed && nodemon src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "db:generate": "prisma generate --schema=src/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema=src/prisma/schema.prisma",
+    "db:push": "prisma db push",
+    "db:seed": "tsx src/prisma/seed.ts",
+    "db:reset": "prisma migrate reset --force",
+    "db:studio": "prisma studio"
+  },
+  "keywords": [
+    "portfolio",
+    "api",
+    "nodejs",
+    "prisma"
+  ],
+  "author": "Yusuf HAYIRLI",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.10.5",
+    "nodemon": "^3.0.2",
+    "prisma": "^6.12.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  }
+}

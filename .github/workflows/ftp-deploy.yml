@@ -5,26 +5,54 @@ on:
 
 jobs:
   ftp-deploy:
-    name: Upload via FTP
+    name: Build frontend & backend and upload via FTP
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build project
-        run: |
-          npm install
-          npm run build
+      # Build Frontend
+      - name: Setup Node.js (Frontend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-      - name: Deploy to FTP Server
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Export frontend static files (if using static export)
+        run: npm run export
+        working-directory: ./frontend
+
+      # Build Backend
+      - name: Setup Node.js (Backend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: ./backend
+
+      - name: Build backend
+        run: npm run build
+        working-directory: ./backend
+
+      # Deploy Frontend
+      - name: Deploy frontend to FTP server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
-          local-dir: ./out/
+          local-dir: ./frontend/out/
           server-dir: /public_html/
           dry-run: false
           passive: true
@@ -33,3 +61,21 @@ jobs:
             **/.git*
             **/node_modules/**
             **/.next/**
+
+      # Deploy Backend
+      - name: Deploy backend to FTP server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          local-dir: ./backend/dist/
+          server-dir: /backend/
+          dry-run: false
+          passive: true
+          log-level: verbose
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            **/dist/** # You can adjust this based on actual backend output

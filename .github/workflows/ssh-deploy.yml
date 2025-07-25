@@ -11,17 +11,56 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Build project
-        run: |
-          npm install
-          npm run build
+      # Build Frontend
+      - name: Setup Node.js (Frontend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-      - name: Deploy via SSH
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Export frontend static files (if using static export)
+        run: npm run export
+        working-directory: ./frontend
+
+      # Build Backend
+      - name: Setup Node.js (Backend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: ./backend
+
+      - name: Build backend
+        run: npm run build
+        working-directory: ./backend
+
+      # Deploy Frontend
+      - name: Deploy frontend via SSH
         uses: easingthemes/ssh-deploy@v2.2.11
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
           REMOTE_PORT: 22
-          SOURCE: "./out/"
+          SOURCE: "./frontend/out/"
           TARGET: "/home/u15dgux9enzm/public_html/"
+
+      # Deploy Backend
+      - name: Deploy backend via SSH
+        uses: easingthemes/ssh-deploy@v2.2.11
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: 22
+          SOURCE: "./backend/dist/"
+          TARGET: "/home/u15dgux9enzm/backend/"

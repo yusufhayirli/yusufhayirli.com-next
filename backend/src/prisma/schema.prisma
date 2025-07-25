@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id                  Int              @id @default(autoincrement())
+  context             String           @default("https://schema.org")
+  type                String           @default("Person")
+  name                String
+  whatIdo             String
+  additionalName      String
+  url                 String
+  gender              String
+  nationality         String
+  birthDate           String
+  birthPlace          String
+  workLocation        String
+  country             String
+  image               String
+  currentCompanyName  String
+  currentCompanyUrl   String
+  title               String
+  jobTitle            String
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  // Relations
+  socialUrls      SocialUrls?          // 1-to-1 Social URLs
+  education       Education?           // 1-to-1 Education
+  experiences     Experience[]         // 1-to-many Experiences
+  skillsAndCerts  SkillsAndCerts?      // 1-to-1 Skills & Certs
+  likeToBuild     LikeToBuild[]        // 1-to-many LikeToBuild items
+
+  @@map("profiles")
+}
+
+model SocialUrls {
+  id        Int     @id @default(autoincrement())
+  instagram String
+  twitter   String
+  linkedin  String
+  mail      String
+  github    String
+  spotify   String
+  profileId Int     @unique
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("social_urls")
+}
+
+model Education {
+  id            Int     @id @default(autoincrement())
+  institution   String
+  universityUrl String
+  degree        String
+  location      String
+  period        String
+  details       String[] // List of details (array of strings)
+  profileId     Int     @unique
+  profile       Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("education")
+}
+
+model Experience {
+  id                 Int     @id @default(autoincrement())
+  jobTitle           String
+  currentCompanyName String
+  currentCompanyUrl  String
+  startDate          String
+  leaveDate          String
+  summary            String[] // Array of summary lines
+  skills             String[] // Array of skills for this job
+  profileId          Int
+  profile            Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("experiences")
+}
+
+model SkillsAndCerts {
+  id                  Int      @id @default(autoincrement())
+  frontEnd            String[] // Array of frontend skills
+  backEnd             String[] // Array of backend skills
+  databases           String[]
+  devOpsTools         String[]
+  cloudInfrastructure String[]
+  softwarePractices   String[]
+  languages           String[]
+  profileId           Int      @unique
+  profile             Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  // Relations
+  certifications      Certification[] // 1-to-many with Certification
+
+  @@map("skills_and_certs")
+}
+
+model Certification {
+  id               Int            @id @default(autoincrement())
+  title            String
+  image            String
+  alt              String
+  issued           String
+  pdfLink          String
+  skillsAndCertsId Int
+  skillsAndCerts   SkillsAndCerts @relation(fields: [skillsAndCertsId], references: [id], onDelete: Cascade)
+
+  @@map("certifications")
+}
+
+model LikeToBuild {
+  id        Int     @id @default(autoincrement())
+  item      String  // E.g. "Computer Engineer", "Uncle", ...
+  profileId Int
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("like_to_build")
+}
