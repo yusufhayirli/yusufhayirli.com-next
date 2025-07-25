@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ExperienceType } from '../../../../shared/types';
+import { ExperienceType } from '@shared/types';
 import Modal from '../Modal';
 
 type ExperienceCardProps = {

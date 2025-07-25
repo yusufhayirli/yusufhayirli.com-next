@@ -3,7 +3,7 @@
 import React from 'react';
 import ExperiencesField from '../ExperiencesField';
 import SkillsAndCerts from '../SkillsAndCerts';
-import { ExperienceType, SkillAndCertsType } from '../../../../shared/types';
+import { ExperienceType, SkillAndCertsType } from '@shared/types';
 
 interface InfoProps {
   experiences: ExperienceType[];

@@ -10,6 +10,7 @@
     "build:backend": "cd backend && npm run build"
   },
   "devDependencies": {
+    "@types/node": "^24.1.0",
     "concurrently": "^8.2.2"
   }
 }

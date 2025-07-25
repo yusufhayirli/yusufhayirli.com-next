@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from 'next/image';
-import { SkillsAndCertsProps } from '../../../../shared/types';
+import { SkillsAndCertsProps } from '@shared/types';
 
 const SkillGroup = ({ title, items }: { title: string; items: string[] }) => (
   <div className="relative bg-[var(--card-bg)] border border-transparent rounded-[1rem] p-6 shadow-[var(--link-color)] transition-all duration-300 hover:scale-[1.015] hover:shadow-[0_0.5rem_1rem_var(--link-color)] hover:border-[var(--link-color)] hover:border-[var(--card-border-hover)] overflow-hidden  ">

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SocialUrls } from '../../../../shared/types';
+import { SocialUrls } from '@shared/types';
 
 type SocialsProps = {
   socialUrls: SocialUrls;

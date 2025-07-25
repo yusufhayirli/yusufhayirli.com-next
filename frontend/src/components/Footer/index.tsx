@@ -4,7 +4,7 @@ import React from 'react';
 import Socials from '../Socials';
 import Divider from '../Divider';
 import SiteSignature from '../SiteSignature';
-import { SocialUrls } from '../../../../shared/types';
+import { SocialUrls } from '@shared/types';
 
 
 type FooterProps = {
