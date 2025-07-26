@@ -12,9 +12,13 @@ router.patch('/', controller.patchPortfolio.bind(controller));
 router.post('/', controller.noOp.bind(controller));
 router.delete('/', controller.noOp.bind(controller));
 
-// The rest dummies...
+// Additional routes for specific parts
 router.get('/profile', controller.getPortfolio.bind(controller));
-router.get('/experiences', controller.getPortfolio.bind(controller));
-router.get('/skills-certs', controller.getPortfolio.bind(controller));
+router.get('/content', controller.getPortfolioContent.bind(controller));
+router.get('/experiences', controller.getExperiences.bind(controller));
+router.get('/skills', controller.getSkillsAndCerts.bind(controller));
+router.get('/education', controller.getEducation.bind(controller));
+router.get('/liketobuild', controller.getLikeToBuild.bind(controller));
+
 
 export default router;

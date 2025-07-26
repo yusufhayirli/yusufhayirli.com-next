@@ -83,19 +83,19 @@ model Experience {
 }
 
 model SkillsAndCerts {
-  id                  Int      @id @default(autoincrement())
-  frontEnd            String[] // Array of frontend skills
-  backEnd             String[] // Array of backend skills
+  id                  Int            @id @default(autoincrement())
+  frontEnd            String[]
+  backEnd             String[]
   databases           String[]
   devOpsTools         String[]
   cloudInfrastructure String[]
   softwarePractices   String[]
   languages           String[]
-  profileId           Int      @unique
-  profile             Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId           Int            @unique
+  profile             Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   // Relations
-  certifications      Certification[] // 1-to-many with Certification
+  salesforceExpertise Certification[] @relation("SkillsAndCertsCertifications")
 
   @@map("skills_and_certs")
 }
@@ -108,9 +108,9 @@ model Certification {
   issued           String
   pdfLink          String
   skillsAndCertsId Int
-  skillsAndCerts   SkillsAndCerts @relation(fields: [skillsAndCertsId], references: [id], onDelete: Cascade)
+  skillsAndCerts   SkillsAndCerts @relation("SkillsAndCertsCertifications", fields: [skillsAndCertsId], references: [id], onDelete: Cascade)
 
-  @@map("certifications")
+  @@map("salesforceExpertise")
 }
 
 model LikeToBuild {

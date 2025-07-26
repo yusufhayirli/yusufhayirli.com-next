@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
@@ -169,7 +171,7 @@ async function main() {
           languages: [
             "English · Professional", "Turkish · Native", "Dutch · Beginner"
           ],
-          certifications: {
+          salesforceExpertise: {
             create: [
               {
                 title: "Salesforce B2C Commerce Developer (Issued 2022 / Up to date)",
@@ -182,7 +184,7 @@ async function main() {
                 title: "Salesforce Associate (Issued 2023 / Up to date)",
                 image: "/assets/images/salesforce-associate-badge.png",
                 alt: "Salesforce Certified Associate Badge",
-                issued: "Issued 2023 • Credential ID: (Eklenirse)",
+                issued: "Issued 2023 • Credential ID: 3368530",
                 pdfLink: "/assets/documents/Cert3368530_Associate_20230504.pdf"
               }
             ]

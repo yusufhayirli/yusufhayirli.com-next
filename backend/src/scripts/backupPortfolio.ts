@@ -11,7 +11,7 @@ async function backupPortfolio() {
         socialUrls: true,
         education: true,
         experiences: true,
-        skillsAndCerts: { include: { certifications: true } }
+        skillsAndCerts: { include: { salesforceExpertise: true } }
       }
     });
     if (!profile) throw new Error('No profile data found!');
@@ -33,7 +33,7 @@ async function backupPortfolio() {
       likeToBuild: likeToBuild.map(l => l.item),
       skillsAndCerts: {
         ...profile.skillsAndCerts,
-        salesforceExpertise: profile.skillsAndCerts?.certifications ?? [],
+        salesforceExpertise: profile.skillsAndCerts?.salesforceExpertise ?? [],
       }
     };
 

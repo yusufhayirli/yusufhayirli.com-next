@@ -1,15 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { TyperProps } from '@shared/types';
 
-interface TypingProps {
-  words: string[];
-  typingSpeed?: number;
-  deletingSpeed?: number;
-  delay?: number;
-}
-
-const Typing: React.FC<TypingProps> = ({
+const Typer: React.FC<TyperProps> = ({
   words,
   typingSpeed = 150,
   deletingSpeed = 75,
@@ -53,4 +47,4 @@ const Typing: React.FC<TypingProps> = ({
   );
 };
 
-export default Typing;
+export default Typer;

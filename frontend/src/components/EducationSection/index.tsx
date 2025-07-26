@@ -1,20 +1,9 @@
 'use client';
 import React from 'react';
+import { EducationSectionProps } from '@shared/types';
 
-export interface EducationInfo {
-  institution: string;
-  universityUrl: string;
-  degree: string;
-  location: string;
-  period: string;
-  details?: string[];
-}
+const EducationSection: React.FC<EducationSectionProps> = ({ educationInfo, isLoadingEducation, errorEducation }) => {
 
-interface EducationSectionProps {
-  educationInfo: EducationInfo;
-}
-
-const EducationSection: React.FC<EducationSectionProps> = ({ educationInfo }) => {
   const {
     institution,
     universityUrl,
@@ -23,6 +12,14 @@ const EducationSection: React.FC<EducationSectionProps> = ({ educationInfo }) =>
     period,
     details,
   } = educationInfo;
+
+  if (
+    isLoadingEducation
+  ) return <div>Loading...</div>;
+
+  if (errorEducation) return <div>Error loading Education data!</div>;
+
+  if (!educationInfo) return <div>No content found.</div>;
 
   return (
     <section className="mt-6 px-4 text-center">

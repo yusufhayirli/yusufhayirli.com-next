@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { InfoState, ProfileContent, SkillsAndCerts } from '@shared/types';
+import type { InfoProps, ProfileContent, SkillsAndCerts } from '@shared/types';
 
 // Define EMPTY structures for type safety
 const emptyContent: ProfileContent = {
@@ -49,7 +49,7 @@ const emptySkillsAndCerts: SkillsAndCerts = {
   languages: [],
 };
 
-const initialState: InfoState = {
+const initialState: InfoProps = {
   content: emptyContent,
   experiences: [],
   likeToBuild: [],
@@ -60,7 +60,7 @@ const infoSlice = createSlice({
   name: 'info',
   initialState,
   reducers: {
-    // Add reducers as needed (e.g. for hydration from DB)
+    // Add reducers as needed
   }
 });
 

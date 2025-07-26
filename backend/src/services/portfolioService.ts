@@ -1,5 +1,12 @@
 import prisma from '../lib/database';
-import type { PortfolioData, Experience, Certification, SocialUrls, Education } from '../types';
+import type {
+  PortfolioData,
+  Experience,
+  Certification,
+  SocialUrls,
+  Education,
+  ContentType,
+} from '@shared/types';
 
 export class PortfolioService {
   // GET - Get complete portfolio data
@@ -10,14 +17,11 @@ export class PortfolioService {
           socialUrls: true,
           education: true,
           experiences: { orderBy: { startDate: 'desc' } },
-          skillsAndCerts: { include: { certifications: true } }
-        }
+          skillsAndCerts: { include: { salesforceExpertise: true } },
+          likeToBuild: true,
+        },
       });
       if (!profile) return null;
-
-      const likeToBuild = await prisma.likeToBuild.findMany({
-        where: { profileId: profile.id }, select: { item: true }
-      });
 
       const portfolioData: PortfolioData = {
         content: {
@@ -38,22 +42,26 @@ export class PortfolioService {
           currentCompanyUrl: profile.currentCompanyUrl,
           title: profile.title,
           jobTitle: profile.jobTitle,
-          socialUrls: profile.socialUrls ? {
-            instagram: profile.socialUrls.instagram,
-            twitter: profile.socialUrls.twitter,
-            linkedin: profile.socialUrls.linkedin,
-            mail: profile.socialUrls.mail,
-            github: profile.socialUrls.github,
-            spotify: profile.socialUrls.spotify
-          } : {} as SocialUrls,
-          education: profile.education ? {
-            institution: profile.education.institution,
-            universityUrl: profile.education.universityUrl,
-            degree: profile.education.degree,
-            location: profile.education.location,
-            period: profile.education.period,
-            details: profile.education.details
-          } : {} as Education
+          socialUrls: profile.socialUrls
+            ? {
+                instagram: profile.socialUrls.instagram,
+                twitter: profile.socialUrls.twitter,
+                linkedin: profile.socialUrls.linkedin,
+                mail: profile.socialUrls.mail,
+                github: profile.socialUrls.github,
+                spotify: profile.socialUrls.spotify,
+              }
+            : ({} as SocialUrls),
+          education: profile.education
+            ? {
+                institution: profile.education.institution,
+                universityUrl: profile.education.universityUrl,
+                degree: profile.education.degree,
+                location: profile.education.location,
+                period: profile.education.period,
+                details: profile.education.details,
+              }
+            : ({} as Education),
         },
         experiences: profile.experiences.map((exp: any) => ({
           jobTitle: exp.jobTitle,
@@ -62,27 +70,143 @@ export class PortfolioService {
           startDate: exp.startDate,
           leaveDate: exp.leaveDate,
           summary: exp.summary,
-          skills: exp.skills
+          skills: exp.skills,
         })),
-        likeToBuild: likeToBuild.map((item: { item: string }) => item.item),
-        skillsAndCerts: profile.skillsAndCerts ? {
-          salesforceExpertise: profile.skillsAndCerts.certifications.map((cert: any) => ({
-            title: cert.title, image: cert.image, alt: cert.alt,
-            issued: cert.issued, pdfLink: cert.pdfLink
-          })),
-          frontEnd: profile.skillsAndCerts.frontEnd,
-          backEnd: profile.skillsAndCerts.backEnd,
-          databases: profile.skillsAndCerts.databases,
-          devOpsTools: profile.skillsAndCerts.devOpsTools,
-          cloudInfrastructure: profile.skillsAndCerts.cloudInfrastructure,
-          softwarePractices: profile.skillsAndCerts.softwarePractices,
-          languages: profile.skillsAndCerts.languages
-        } : {} as any
+        likeToBuild: profile.likeToBuild?.map((item) => item.item) || [],
+        skillsAndCerts: profile.skillsAndCerts
+          ? {
+              salesforceExpertise: profile.skillsAndCerts.salesforceExpertise.map(
+                (cert: any) => ({
+                  title: cert.title,
+                  image: cert.image,
+                  alt: cert.alt,
+                  issued: cert.issued,
+                  pdfLink: cert.pdfLink,
+                })
+              ),
+              frontEnd: profile.skillsAndCerts.frontEnd,
+              backEnd: profile.skillsAndCerts.backEnd,
+              databases: profile.skillsAndCerts.databases,
+              devOpsTools: profile.skillsAndCerts.devOpsTools,
+              cloudInfrastructure: profile.skillsAndCerts.cloudInfrastructure,
+              softwarePractices: profile.skillsAndCerts.softwarePractices,
+              languages: profile.skillsAndCerts.languages,
+            }
+          : ({} as any),
       };
       return portfolioData;
     } catch (error) {
       console.error('Error fetching portfolio data:', error);
       throw new Error('Failed to fetch portfolio data');
+    }
+  }
+
+  async getPortfolioContent(): Promise<ContentType | null> {
+    try {
+      const profile = await prisma.profile.findFirst({
+        include: {
+          socialUrls: true,
+          education: true,
+        },
+      });
+      if (!profile) return null;
+
+      const content: ContentType = {
+        context: profile.context,
+        type: profile.type,
+        name: profile.name,
+        whatIdo: profile.whatIdo,
+        additionalName: profile.additionalName,
+        url: profile.url,
+        gender: profile.gender,
+        nationality: profile.nationality,
+        birthDate: profile.birthDate,
+        birthPlace: profile.birthPlace,
+        workLocation: profile.workLocation,
+        country: profile.country,
+        image: profile.image,
+        currentCompanyName: profile.currentCompanyName,
+        currentCompanyUrl: profile.currentCompanyUrl,
+        title: profile.title,
+        jobTitle: profile.jobTitle,
+        socialUrls: profile.socialUrls
+          ? {
+              instagram: profile.socialUrls.instagram,
+              twitter: profile.socialUrls.twitter,
+              linkedin: profile.socialUrls.linkedin,
+              mail: profile.socialUrls.mail,
+              github: profile.socialUrls.github,
+              spotify: profile.socialUrls.spotify,
+            }
+          : ({} as SocialUrls),
+        education: profile.education
+          ? {
+              institution: profile.education.institution,
+              universityUrl: profile.education.universityUrl,
+              degree: profile.education.degree,
+              location: profile.education.location,
+              period: profile.education.period,
+              details: profile.education.details,
+            }
+          : ({} as Education),
+      };
+
+      return content;
+    } catch (error) {
+      console.error('Error fetching portfolio content:', error);
+      throw new Error('Failed to fetch portfolio content');
+    }
+  }
+
+  // GET Only Experiences Field
+  async getExperiences() {
+    try {
+      const profile = await prisma.profile.findFirst({
+        include: { experiences: { orderBy: { startDate: 'desc' } } },
+      });
+      return profile?.experiences || null;
+    } catch (error) {
+      console.error('Error fetching experiences:', error);
+      throw error;
+    }
+  }
+
+  // GET Only SkillsAndCerts Field
+  async getSkillsAndCerts() {
+    try {
+      const profile = await prisma.profile.findFirst({
+        include: { skillsAndCerts: { include: { salesforceExpertise: true } } },
+      });
+      return profile?.skillsAndCerts || null;
+    } catch (error) {
+      console.error('Error fetching skills and certs:', error);
+      throw error;
+    }
+  }
+
+  // GET Only Education Field
+  async getEducation() {
+    try {
+      const profile = await prisma.profile.findFirst({
+        include: { education: true },
+      });
+      return profile?.education || null;
+    } catch (error) {
+      console.error('Error fetching education:', error);
+      throw error;
+    }
+  }
+
+  // GET Only LikeToBuild Field
+  async getLikeToBuild() {
+    try {
+      const profile = await prisma.profile.findFirst({
+        include: { likeToBuild: true }
+      });
+      return profile?.likeToBuild?.map(item => item.item) || [];
+    } catch (error) {
+      console.error('Error fetching likeToBuild:', error);
+      throw error;
     }
   }
 
@@ -98,34 +222,33 @@ export class PortfolioService {
           data: {
             ...data.content,
             socialUrls: { create: data.content.socialUrls },
-            education: { create: data.content.education }
-          }
+            education: { create: data.content.education },
+          },
         });
       } else {
-        // Only send primitive fields to profile.update (nested relations separately!)
-        if (!data.content) throw new Error('No content provided for upsert!');
+        // Only send primitive fields to profile.update (nested relations separately)
         const { socialUrls, education, ...profileFields } = data.content;
 
         await prisma.profile.update({
           where: { id: profile.id },
-          data: { ...profileFields }
+          data: { ...profileFields },
         });
 
-        // SOCIAL URLS upsert
+        // SOCIAL URLS UPSERT
         if (data.content.socialUrls) {
           await prisma.socialUrls.upsert({
             where: { profileId: profile.id },
             update: data.content.socialUrls,
-            create: { ...data.content.socialUrls, profileId: profile.id }
+            create: { ...data.content.socialUrls, profileId: profile.id },
           });
         }
 
-        // EDUCATION upsert
+        // EDUCATION UPSERT
         if (data.content.education) {
           await prisma.education.upsert({
             where: { profileId: profile.id },
             update: data.content.education,
-            create: { ...data.content.education, profileId: profile.id }
+            create: { ...data.content.education, profileId: profile.id },
           });
         }
       }
@@ -134,7 +257,10 @@ export class PortfolioService {
       await prisma.experience.deleteMany({ where: { profileId: profile.id } });
       if (data.experiences?.length) {
         await prisma.experience.createMany({
-          data: data.experiences.map((exp: Experience) => ({ ...exp, profileId: profile.id }))
+          data: data.experiences.map((exp: Experience) => ({
+            ...exp,
+            profileId: profile.id,
+          })),
         });
       }
 
@@ -142,15 +268,18 @@ export class PortfolioService {
       await prisma.likeToBuild.deleteMany({ where: { profileId: profile.id } });
       if (data.likeToBuild?.length) {
         await prisma.likeToBuild.createMany({
-          data: data.likeToBuild.map((item: string) => ({ item, profileId: profile.id }))
+          data: data.likeToBuild.map((item: string) => ({
+            item,
+            profileId: profile.id,
+          })),
         });
       }
 
-      // SKILLS & CERTS (do NOT include certifications in update/create)
-      const { salesforceExpertise, ...otherSkillsAndCerts } = data.skillsAndCerts || {};
+      // SKILLS & CERTS (exclude certifications here)
+      const { salesforceExpertise, ...otherSkillsAndCerts } =
+        data.skillsAndCerts || {};
       const prismaSkillsAndCertsData = {
-        ...otherSkillsAndCerts
-        // certifications: DO NOT include here!
+        ...otherSkillsAndCerts,
       };
 
       const skillsAndCerts = await prisma.skillsAndCerts.upsert({
@@ -158,19 +287,20 @@ export class PortfolioService {
         update: prismaSkillsAndCertsData,
         create: {
           ...prismaSkillsAndCertsData,
-          profileId: profile.id
-        }
+          profileId: profile.id,
+        },
       });
 
       // CERTIFICATIONS (clear & re-create)
       await prisma.certification.deleteMany({
-        where: { skillsAndCertsId: skillsAndCerts.id }
+        where: { skillsAndCertsId: skillsAndCerts.id },
       });
       if (salesforceExpertise?.length) {
         await prisma.certification.createMany({
           data: salesforceExpertise.map((cert: Certification) => ({
-            ...cert, skillsAndCertsId: skillsAndCerts.id
-          }))
+            ...cert,
+            skillsAndCertsId: skillsAndCerts.id,
+          })),
         });
       }
 
@@ -182,7 +312,9 @@ export class PortfolioService {
   }
 
   // PATCH (partial update)
-  async patchPortfolioData(partial: Partial<PortfolioData>): Promise<PortfolioData | null> {
+  async patchPortfolioData(
+    partial: Partial<PortfolioData>
+  ): Promise<PortfolioData | null> {
     const profile = await prisma.profile.findFirst();
     if (!profile) throw new Error('No profile to patch!');
 
@@ -214,6 +346,17 @@ export class PortfolioService {
       await prisma.education.update({
         where: { profileId: profile.id },
         data: education,
+      });
+    }
+
+    // Update likeToBuild if provided
+    if (partial.likeToBuild) {
+      await prisma.likeToBuild.deleteMany({ where: { profileId: profile.id } });
+      await prisma.likeToBuild.createMany({
+        data: partial.likeToBuild.map((item: string) => ({
+          item,
+          profileId: profile.id,
+        })),
       });
     }
 

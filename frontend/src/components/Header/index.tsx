@@ -1,38 +1,18 @@
-'use client';
-
 import React from 'react';
 import CircleAvatar from '../CircleAvatar';
 import HeaderInfo from '../HeaderInfo';
-import Typing from '../Typer';
+import Typer from '../Typer';
+import type { HeaderProps } from '@shared/types';
 
-interface EducationInfo {
-  institution: string;
-  universityUrl: string;
-  degree: string;
-  location: string;
-  period: string;
-  details?: string[];
-}
+const Header: React.FC<HeaderProps> = ({ info, likeToBuild }) => {
 
-interface InfoType {
-  likeToBuild: string[];
-  content: {
-    name: string;
-    whatIdo: string;
-    education: EducationInfo;
-  };
-}
+  console.log(info)
 
-interface HeaderProps {
-  info: InfoType;
-}
-
-const Header: React.FC<HeaderProps> = ({ info }) => {
   return (
     <div className="header">
       <CircleAvatar />
-      <Typing words={info.likeToBuild} />
-      <HeaderInfo content={info.content} />
+      <Typer words={likeToBuild ?? []} />
+      <HeaderInfo content={info} />
     </div>
   );
 };
